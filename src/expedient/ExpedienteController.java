@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -78,11 +79,15 @@ public class ExpedienteController implements Initializable {
         persona.domicilio.set(txt_domicilio.getText());
         persona.sexo.set(txt_sexo.getText());
         persona.foto.set(nuevaFotoStr);
-        
-        personas.add(persona); // Agregamos el objeto persona a la lista de personas
-        
+
+//        personas.add(persona); // Agregamos el objeto persona a la lista de personas
+
         // Guardamos los datos de la persona el la bdd
         persona.saveNewbdd();
+        
+        
+        
+        loadLista();
     }
 
     @FXML
@@ -94,7 +99,7 @@ public class ExpedienteController implements Initializable {
         persona.domicilio.set(txt_domicilio.getText());
         persona.sexo.set(txt_sexo.getText());
         personas.set(posicionPersonaEnTabla, persona);
-        
+
         persona.saveUpDatebdd();
     }
 
@@ -121,20 +126,18 @@ public class ExpedienteController implements Initializable {
             JFileChooser file = new JFileChooser(System.getProperty("user.dir"));
             file.showOpenDialog(file);
             File archivo = file.getSelectedFile();
-            
+
             apiEncodeBase64 encode = new apiEncodeBase64();
             nuevaFotoStr = encode.encoder(archivo);
-            
+
             System.out.println(nuevaFotoStr);
-            
-             
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error Importando - " + ex);
         }
 
     }
-    
+
     private String nuevaFotoStr = "";
 
     private final ListChangeListener<Persona> selectorTablaPersonas
@@ -171,6 +174,7 @@ public class ExpedienteController implements Initializable {
             btn_modificar.setDisable(false);
             btn_eliminar.setDisable(false);
             btn_agregar.setDisable(true);
+            System.out.println(persona.foto.get());
 
         }
     }
@@ -184,6 +188,8 @@ public class ExpedienteController implements Initializable {
 
         personas = FXCollections.observableArrayList();
         tbl_epersonas.setItems(personas);
+
+        loadLista();
     }
 
     @Override
@@ -196,4 +202,31 @@ public class ExpedienteController implements Initializable {
         tablaPersonaSel.addListener(selectorTablaPersonas);
     }
 
+    
+    public void loadLista() {
+        personas.clear();
+        conexionMySQL con = new conexionMySQL("root", "bbd_expediente", "isac84alejandro");
+        String sql = "SELECT * FROM `tbl_persona`";
+        ResultSet res;
+        res = con.query(sql);
+
+        try {
+            while (res.next()) {
+                System.out.println( res.getInt("id_persona") + " - " + res.getString("nombre") );
+                
+                Persona persona = new Persona();
+                persona.id.set( res.getInt("id_persona")  );
+                persona.nombre.set( res.getString("nombre") );
+                persona.apellido.set( res.getString("apellido") );
+                persona.edad.set( res.getInt("edad") );
+                persona.sexo.set( res.getString("sexo") );
+                persona.domicilio.set( res.getString("domicilio") );
+                persona.foto.set( res.getString("foto") );
+                
+                personas.add(persona);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+    }
 }

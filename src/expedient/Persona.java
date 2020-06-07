@@ -7,7 +7,7 @@ public class Persona {
 
     conexionMySQL con;
 
-    public SimpleStringProperty id;
+    public SimpleIntegerProperty id;
     public SimpleStringProperty nombre;
     public SimpleStringProperty apellido;
     public SimpleIntegerProperty edad;
@@ -16,6 +16,7 @@ public class Persona {
     public SimpleStringProperty foto;
 
     public Persona() {
+        id = new SimpleIntegerProperty();
         nombre = new SimpleStringProperty();
         apellido = new SimpleStringProperty();
         edad = new SimpleIntegerProperty();
@@ -51,7 +52,6 @@ public class Persona {
             String sql = "INSERT INTO `tbl_persona` (`nombre`, `apellido`, `sexo`, `edad`, `domicilio`, `foto`) VALUES ";
             sql += "('" + nombre.get() + "', '" + apellido.get() + "', '" + sexo.get() + "', " + edad.get() + ", '" + domicilio.get() + "', '" + foto.get() + "'  );";
             String s = con.exeScriptInsert(sql);
-            System.out.println(s);
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -82,14 +82,16 @@ public class Persona {
     
     public boolean deletebdd() {
         try {
-            String sql = "INSERT INTO `tbl_persona` (`nombre`, `apellido`, `sexo`, `edad`, `domicilio`, `foto`) VALUES ";
-            sql += "('" + nombre.get() + "', '" + apellido.get() + "', '" + sexo.get() + "', " + edad.get() + ", '" + domicilio.get() + "', '" + foto.get() + "'  );";
+            // UPDATE `tbl_aux` SET `dato` = 'SANDRO' WHERE (`id_aux` = '97');
+            String sql = "INSERT INTO `tbl_persona` SET ";
+            sql += "`activo` = '0'";
+            sql += " WHERE (`id_persona` = '" + id.get() + "')";
+            
             con.exeScript(sql);
             System.out.println(sql);
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
-
         return false;
     }
 }
