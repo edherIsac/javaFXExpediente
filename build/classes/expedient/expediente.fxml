@@ -11,43 +11,47 @@
 
 
 <AnchorPane id="AnchorPane" prefHeight="523.0" prefWidth="747.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="expedient.ExpedienteController">
-   <children>
-      <SplitPane dividerPositions="0.4145873320537428" layoutX="4.0" orientation="VERTICAL" prefHeight="523.0" prefWidth="740.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="241.0" prefWidth="738.0">
-               <children>
-                  <TextField fx:id="txt_edad" layoutX="396.0" layoutY="47.0" />
-                  <TextField fx:id="txt_domicilio" layoutX="193.0" layoutY="169.0" prefHeight="25.0" prefWidth="351.0" />
-                  <TextField fx:id="txt_nombre" layoutX="193.0" layoutY="47.0" />
-                  <TextField fx:id="txt_sexo" layoutX="396.0" layoutY="105.0" />
-                  <TextField fx:id="txt_apellido" layoutX="193.0" layoutY="105.0" />
-                  <Label layoutX="193.0" layoutY="20.0" text="Nombre " />
-                  <Label layoutX="195.0" layoutY="83.0" text="Apellido" />
-                  <Label layoutX="394.0" layoutY="83.0" prefHeight="17.0" prefWidth="32.0" text="Sexo" />
-                  <Label layoutX="396.0" layoutY="20.0" text="Edad" />
-                  <Label layoutX="193.0" layoutY="146.0" prefHeight="17.0" prefWidth="61.0" text="Domicilio" />
-                  <ImageView fx:id="imgView_imagen" fitHeight="141.0" fitWidth="149.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
-                  <Button fx:id="btn_imagen" layoutX="14.0" layoutY="173.0" mnemonicParsing="false" onAction="#cargarImagen" prefHeight="25.0" prefWidth="73.0" text="Imagen" />
-                  <Button fx:id="btn_modificar" layoutX="602.0" layoutY="25.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="81.0" text="Modificar" />
-                  <Button fx:id="btn_agregar" layoutX="602.0" layoutY="71.0" mnemonicParsing="false" onAction="#guardar" prefHeight="25.0" prefWidth="81.0" text="Agregar" />
-                  <Button fx:id="btn_nuevo" layoutX="602.0" layoutY="118.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="25.0" prefWidth="81.0" text="Nuevo" />
-                  <Button fx:id="btn_eliminar" layoutX="602.0" layoutY="169.0" mnemonicParsing="false" onAction="#eliminar" prefHeight="25.0" prefWidth="81.0" text="Eliminar" />
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="337.0" prefWidth="738.0">
-               <children>
-                  <TableView fx:id="tbl_epersonas" layoutX="6.0" layoutY="4.0" prefHeight="292.0" prefWidth="726.0">
-                    <columns>
-                      <TableColumn fx:id="col_nombre" prefWidth="145.0" text="Nombre" />
-                        <TableColumn fx:id="col_apellido" prefWidth="126.0" text="Apellido" />
-                        <TableColumn fx:id="col_edad" minWidth="0.0" prefWidth="68.0" text="Edad" />
-                        <TableColumn fx:id="col_sexo" prefWidth="95.0" text="Sexo" />
-                        <TableColumn fx:id="col_domicilio" prefWidth="290.0" text="Domicilio" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
-   </children>
+    <children>
+        <SplitPane dividerPositions="0.4145873320537428" layoutX="4.0" orientation="VERTICAL" prefHeight="523.0" prefWidth="740.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="241.0" prefWidth="738.0">
+                    <children>
+                        <TextField fx:id="txt_nombre" layoutX="193.0" layoutY="47.0" />
+                        <TextField fx:id="txt_apellido" layoutX="193.0" layoutY="105.0" />
+                        <TextField fx:id="txt_edad" layoutX="396.0" layoutY="47.0" />
+                        <TextField fx:id="txt_sexo" layoutX="396.0" layoutY="105.0" />
+                        <TextField fx:id="txt_domicilio" layoutX="193.0" layoutY="169.0" prefHeight="25.0" prefWidth="351.0" />
+                  
+                        
+                        <Label layoutX="193.0" layoutY="20.0" text="Nombre " />
+                        <Label layoutX="195.0" layoutY="83.0" text="Apellido" />
+                        <Label layoutX="394.0" layoutY="83.0" prefHeight="17.0" prefWidth="32.0" text="Sexo" />
+                        <Label layoutX="396.0" layoutY="20.0" text="Edad" />
+                        <Label layoutX="193.0" layoutY="146.0" prefHeight="17.0" prefWidth="61.0" text="Domicilio" />
+                        
+                        <ImageView fx:id="imgView_imagen" fitHeight="141.0" fitWidth="149.0" layoutX="14.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
+                        
+                        <Button fx:id="btn_imagen" layoutX="14.0" layoutY="173.0" mnemonicParsing="false" onAction="#cargarImagen" prefHeight="25.0" prefWidth="73.0" text="Imagen" />
+                        <Button fx:id="btn_modificar" layoutX="602.0" layoutY="25.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="81.0" text="Modificar" />
+                        <Button fx:id="btn_agregar" layoutX="602.0" layoutY="71.0" mnemonicParsing="false" onAction="#guardar" prefHeight="25.0" prefWidth="81.0" text="Agregar" />
+                        <Button fx:id="btn_nuevo" layoutX="602.0" layoutY="118.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="25.0" prefWidth="81.0" text="Nuevo" />
+                        <Button fx:id="btn_eliminar" layoutX="602.0" layoutY="169.0" mnemonicParsing="false" onAction="#eliminar" prefHeight="25.0" prefWidth="81.0" text="Eliminar" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="337.0" prefWidth="738.0">
+                    <children>
+                        <TableView fx:id="tbl_epersonas" layoutX="6.0" layoutY="4.0" prefHeight="292.0" prefWidth="726.0">
+                            <columns>
+                                <TableColumn fx:id="col_nombre" prefWidth="145.0" text="Nombre" />
+                                <TableColumn fx:id="col_apellido" prefWidth="126.0" text="Apellido" />
+                                <TableColumn fx:id="col_edad" minWidth="0.0" prefWidth="68.0" text="Edad" />
+                                <TableColumn fx:id="col_sexo" prefWidth="95.0" text="Sexo" />
+                                <TableColumn fx:id="col_domicilio" prefWidth="290.0" text="Domicilio" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </children>
 </AnchorPane>

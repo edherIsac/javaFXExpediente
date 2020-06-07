@@ -2,6 +2,7 @@ package expedient;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -76,7 +77,12 @@ public class ExpedienteController implements Initializable {
         persona.edad.set(Integer.parseInt(txt_edad.getText()));
         persona.domicilio.set(txt_domicilio.getText());
         persona.sexo.set(txt_sexo.getText());
-        personas.add(persona);
+        persona.foto.set(nuevaFotoStr);
+        
+        personas.add(persona); // Agregamos el objeto persona a la lista de personas
+        
+        // Guardamos los datos de la persona el la bdd
+        persona.saveNewbdd();
     }
 
     @FXML
@@ -88,6 +94,8 @@ public class ExpedienteController implements Initializable {
         persona.domicilio.set(txt_domicilio.getText());
         persona.sexo.set(txt_sexo.getText());
         personas.set(posicionPersonaEnTabla, persona);
+        
+        persona.saveUpDatebdd();
     }
 
     @FXML
@@ -109,37 +117,34 @@ public class ExpedienteController implements Initializable {
 
     @FXML
     private void cargarImagen(ActionEvent event) {
-        String aux = "";
-        String texto = "";
-        String resultado = "";
         try {
             JFileChooser file = new JFileChooser(System.getProperty("user.dir"));
             file.showOpenDialog(file);
             File archivo = file.getSelectedFile();
-            if (archivo != null) {
-                FileReader archivos = new FileReader(archivo);
-                try (BufferedReader leer = new BufferedReader(archivos)) {
-                    while ((aux = leer.readLine()) != null) {
-                        texto += aux + "\n";
-                    }
-                }
-            }
-        } catch (IOException ex) {
+            
+            apiEncodeBase64 encode = new apiEncodeBase64();
+            nuevaFotoStr = encode.encoder(archivo);
+            
+            System.out.println(nuevaFotoStr);
+            
+             
+
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error Importando - " + ex);
         }
-        //txt_editor.setText(texto);
 
     }
-
-
-private final ListChangeListener<Persona> selectorTablaPersonas =
-            new ListChangeListener<Persona>() {
-                @Override
-        public void onChanged(ListChangeListener.Change<? extends Persona> c) {
-                    ponerPersonaSeleccionada();
-                }
-            };
     
+    private String nuevaFotoStr = "";
+
+    private final ListChangeListener<Persona> selectorTablaPersonas
+            = new ListChangeListener<Persona>() {
+        @Override
+        public void onChanged(ListChangeListener.Change<? extends Persona> c) {
+            ponerPersonaSeleccionada();
+        }
+    };
+
     public Persona getTablaPersonasSeleccionada() {
         if (tbl_epersonas != null) {
             List<Persona> tabla = tbl_epersonas.getSelectionModel().getSelectedItems();
@@ -150,7 +155,7 @@ private final ListChangeListener<Persona> selectorTablaPersonas =
         }
         return null;
     }
-    
+
     private void ponerPersonaSeleccionada() {
         final Persona persona = getTablaPersonasSeleccionada();
         posicionPersonaEnTabla = personas.indexOf(persona);
@@ -169,26 +174,26 @@ private final ListChangeListener<Persona> selectorTablaPersonas =
 
         }
     }
-    
+
     private void inicializarTablaPersonas() {
         col_nombre.setCellValueFactory(new PropertyValueFactory<Persona, String>("nombre"));
         col_apellido.setCellValueFactory(new PropertyValueFactory<Persona, String>("apellido"));
         col_edad.setCellValueFactory(new PropertyValueFactory<Persona, Integer>("edad"));
         col_domicilio.setCellValueFactory(new PropertyValueFactory<Persona, String>("domicilio"));
         col_sexo.setCellValueFactory(new PropertyValueFactory<Persona, String>("sexo"));
-        
+
         personas = FXCollections.observableArrayList();
         tbl_epersonas.setItems(personas);
     }
-    
+
     @Override
-        public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) {
         this.inicializarTablaPersonas();
         btn_modificar.setDisable(true);
         btn_eliminar.setDisable(true);
-        
+
         final ObservableList<Persona> tablaPersonaSel = tbl_epersonas.getSelectionModel().getSelectedItems();
         tablaPersonaSel.addListener(selectorTablaPersonas);
-    }    
-    
+    }
+
 }
