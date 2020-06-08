@@ -24,7 +24,8 @@ public class Persona {
         sexo = new SimpleStringProperty();
         foto = new SimpleStringProperty();
 
-        con = new conexionMySQL("robert1", "bbd_expediente", "123.Hola");
+        con = new conexionMySQL("root", "bbd_expediente", "isac84alejandro");
+//        con = new conexionMySQL("robert1", "bbd_expediente", "123.Hola");
     }
     
     public Integer getId() {
@@ -73,7 +74,7 @@ public class Persona {
             sql += "`edad` = '" + edad.get() + "',";
             sql += "`domicilio` = '" + domicilio.get() + "',";
             sql += "`foto` = '" + foto.get() + "'";
-            sql += " WHERE (`id_persona` = '" + id.get() + "')";
+            sql += " WHERE `id_persona` = '" + id.get() + "';";
             
             con.exeScript(sql);
             System.out.println(sql);

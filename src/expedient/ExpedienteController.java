@@ -1,11 +1,13 @@
 package expedient;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -85,13 +87,8 @@ public class ExpedienteController implements Initializable {
         persona.sexo.set(txt_sexo.getText());
         persona.foto.set(nuevaFotoStr);
 
-//        personas.add(persona); // Agregamos el objeto persona a la lista de personas
-
         // Guardamos los datos de la persona el la bdd
         persona.saveNewbdd();
-        
-        
-        
         loadLista();
     }
 
@@ -141,18 +138,13 @@ public class ExpedienteController implements Initializable {
             file.showOpenDialog(file);
             File archivo = file.getSelectedFile();
             
-//            Sacar la ruta de la imagen
-            System.out.println(archivo.getAbsolutePath());
-            
             apiEncodeBase64 encode = new apiEncodeBase64();
             nuevaFotoStr = encode.encoder(archivo);
             
-//            Colocar imagen en el view
-            if(archivo !=null){
-                Image image = new Image("file:" + archivo.getAbsolutePath());
-                imgView_imagen.setImage(image);
-            }
-            System.out.println(nuevaFotoStr);
+            byte[] fileContent = Files.readAllBytes(archivo.toPath());
+            ByteArrayInputStream bis = new ByteArrayInputStream(fileContent);
+            Image img = new Image(bis);
+            imgView_imagen.setImage(img);
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error Importando - " + ex);
@@ -187,12 +179,8 @@ public class ExpedienteController implements Initializable {
         final Persona persona = getTablaPersonasSeleccionada();
         posicionPersonaEnTabla = personas.indexOf(persona);
         
-        String imagen=persona.foto.get();
         apiEncodeBase64 decode = new apiEncodeBase64();
-//        Image img = decode.decoder(imagen,this.c);
         
-        
-
         if (persona != null) {
 
             txt_nombre.setText(persona.getNombre());
@@ -200,13 +188,11 @@ public class ExpedienteController implements Initializable {
             txt_edad.setText(persona.getEdad().toString());
             txt_domicilio.setText(persona.getDomicilio());
             txt_sexo.setText(persona.getSexo());
-//            imgView_imagen.setImage(persona.foto.get());
+            imgView_imagen.setImage( decode.decoderV2(persona.foto.get()));
 
             btn_modificar.setDisable(false);
             btn_eliminar.setDisable(false);
             btn_agregar.setDisable(true);
-            System.out.println(persona.foto.get());
-            System.out.println(persona.id.get());
 
         }
     }
@@ -238,7 +224,8 @@ public class ExpedienteController implements Initializable {
     
     public void loadLista() {
         personas.clear();
-        conexionMySQL con = new conexionMySQL("robert1", "bbd_expediente", "123.Hola");
+        conexionMySQL con = new conexionMySQL("root", "bbd_expediente", "isac84alejandro");
+//        conexionMySQL con = new conexionMySQL("robert1", "bbd_expediente", "123.Hola");
         String sql = "SELECT * FROM `tbl_persona` WHERE (`activo` = '0')";
         ResultSet res;
         res = con.query(sql);

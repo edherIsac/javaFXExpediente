@@ -62,4 +62,17 @@ public class apiEncodeBase64 {
             System.out.println("Exception while reading the Image " + ioe);
         }
     }
+    
+    public static Image decoderV2(String base64Image) {
+        
+        try {
+            byte[] imageByteArray = Base64.getDecoder().decode(base64Image);
+            ByteArrayInputStream bis = new ByteArrayInputStream(imageByteArray);
+            Image img = new Image(bis);
+            return img;
+        } catch (Exception e) {
+        }
+        
+        return null;
+    }
 }
