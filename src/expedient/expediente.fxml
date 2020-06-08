@@ -9,8 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="523.0" prefWidth="747.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="expedient.ExpedienteController">
+<AnchorPane id="AnchorPane" prefHeight="523.0" prefWidth="747.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="expedient.ExpedienteController">
     <children>
         <SplitPane dividerPositions="0.4145873320537428" layoutX="4.0" orientation="VERTICAL" prefHeight="523.0" prefWidth="740.0">
             <items>
@@ -40,13 +39,13 @@
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="337.0" prefWidth="738.0">
                     <children>
-                        <TableView fx:id="tbl_epersonas" layoutX="6.0" layoutY="4.0" prefHeight="292.0" prefWidth="726.0">
+                        <TableView fx:id="tbl_epersonas" layoutX="5.0" layoutY="5.0" prefHeight="292.0" prefWidth="728.0">
                             <columns>
-                                <TableColumn fx:id="col_nombre" prefWidth="145.0" text="Nombre" />
-                                <TableColumn fx:id="col_apellido" prefWidth="126.0" text="Apellido" />
-                                <TableColumn fx:id="col_edad" minWidth="0.0" prefWidth="68.0" text="Edad" />
-                                <TableColumn fx:id="col_sexo" prefWidth="95.0" text="Sexo" />
-                                <TableColumn fx:id="col_domicilio" prefWidth="290.0" text="Domicilio" />
+                                <TableColumn fx:id="col_nombre" prefWidth="132.0" text="Nombre" />
+                                <TableColumn fx:id="col_apellido" prefWidth="159.0" text="Apellido" />
+                                <TableColumn fx:id="col_edad" minWidth="0.0" prefWidth="72.0" text="Edad" />
+                                <TableColumn fx:id="col_sexo" prefWidth="101.0" text="Sexo" />
+                                <TableColumn fx:id="col_domicilio" prefWidth="230.0" text="Domicilio" />
                             </columns>
                         </TableView>
                     </children>

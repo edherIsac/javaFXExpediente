@@ -24,7 +24,11 @@ public class Persona {
         sexo = new SimpleStringProperty();
         foto = new SimpleStringProperty();
 
-        con = new conexionMySQL("root", "bbd_expediente", "isac84alejandro");
+        con = new conexionMySQL("robert1", "bbd_expediente", "123.Hola");
+    }
+    
+    public Integer getId() {
+        return id.get();
     }
 
     public String getNombre() {
@@ -62,14 +66,14 @@ public class Persona {
     public boolean saveUpDatebdd() {
         try {
             // UPDATE `tbl_aux` SET `dato` = 'SANDRO' WHERE (`id_aux` = '97');
-            String sql = "INSERT INTO `tbl_persona` SET ";
+            String sql = "UPDATE `tbl_persona` SET ";
             sql += "`nombre` = '" + nombre.get() + "',";
             sql += "`apellido` = '" + apellido.get() + "',";
             sql += "`sexo` = '" + sexo.get() + "',";
             sql += "`edad` = '" + edad.get() + "',";
             sql += "`domicilio` = '" + domicilio.get() + "',";
             sql += "`foto` = '" + foto.get() + "'";
-            sql += " WHERE (`id_persona` = '" + id + "')";
+            sql += " WHERE (`id_persona` = '" + id.get() + "')";
             
             con.exeScript(sql);
             System.out.println(sql);
@@ -83,8 +87,8 @@ public class Persona {
     public boolean deletebdd() {
         try {
             // UPDATE `tbl_aux` SET `dato` = 'SANDRO' WHERE (`id_aux` = '97');
-            String sql = "INSERT INTO `tbl_persona` SET ";
-            sql += "`activo` = '0'";
+            String sql = "UPDATE `tbl_persona` SET ";
+            sql += "`activo` = '1'";
             sql += " WHERE (`id_persona` = '" + id.get() + "')";
             
             con.exeScript(sql);

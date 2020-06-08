@@ -20,6 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -66,6 +67,10 @@ public class ExpedienteController implements Initializable {
     private TableColumn col_sexo;
     @FXML
     private TableColumn col_domicilio;
+    
+    
+    
+    
     ObservableList<Persona> personas;
 
     private int posicionPersonaEnTabla;
@@ -98,9 +103,13 @@ public class ExpedienteController implements Initializable {
         persona.edad.set(Integer.parseInt(txt_edad.getText()));
         persona.domicilio.set(txt_domicilio.getText());
         persona.sexo.set(txt_sexo.getText());
-        personas.set(posicionPersonaEnTabla, persona);
-
+//        personas.set(posicionPersonaEnTabla, persona);
+        final Persona persona2 = getTablaPersonasSeleccionada();
+        persona.id.set(persona2.getId());
+        persona.foto.set(persona2.foto.get());
+        
         persona.saveUpDatebdd();
+        loadLista();
     }
 
     @FXML
@@ -110,14 +119,19 @@ public class ExpedienteController implements Initializable {
         txt_edad.setText("");
         txt_sexo.setText("");
         txt_domicilio.setText("");
+        imgView_imagen.setImage(null);
         btn_agregar.setDisable(false);
         btn_modificar.setDisable(true);
         btn_eliminar.setDisable(true);
+        
     }
 
     @FXML
     private void eliminar(ActionEvent event) {
-        personas.remove(posicionPersonaEnTabla);
+//        personas.remove(posicionPersonaEnTabla);
+        final Persona persona = getTablaPersonasSeleccionada();
+        persona.deletebdd();
+        loadLista();
     }
 
     @FXML
@@ -126,10 +140,18 @@ public class ExpedienteController implements Initializable {
             JFileChooser file = new JFileChooser(System.getProperty("user.dir"));
             file.showOpenDialog(file);
             File archivo = file.getSelectedFile();
-
+            
+//            Sacar la ruta de la imagen
+            System.out.println(archivo.getAbsolutePath());
+            
             apiEncodeBase64 encode = new apiEncodeBase64();
             nuevaFotoStr = encode.encoder(archivo);
-
+            
+//            Colocar imagen en el view
+            if(archivo !=null){
+                Image image = new Image("file:" + archivo.getAbsolutePath());
+                imgView_imagen.setImage(image);
+            }
             System.out.println(nuevaFotoStr);
 
         } catch (Exception ex) {
@@ -151,8 +173,10 @@ public class ExpedienteController implements Initializable {
     public Persona getTablaPersonasSeleccionada() {
         if (tbl_epersonas != null) {
             List<Persona> tabla = tbl_epersonas.getSelectionModel().getSelectedItems();
+            
             if (tabla.size() == 1) {
                 final Persona competicionSeleccionada = tabla.get(0);
+                
                 return competicionSeleccionada;
             }
         }
@@ -162,6 +186,12 @@ public class ExpedienteController implements Initializable {
     private void ponerPersonaSeleccionada() {
         final Persona persona = getTablaPersonasSeleccionada();
         posicionPersonaEnTabla = personas.indexOf(persona);
+        
+        String imagen=persona.foto.get();
+        apiEncodeBase64 decode = new apiEncodeBase64();
+//        Image img = decode.decoder(imagen,this.c);
+        
+        
 
         if (persona != null) {
 
@@ -170,16 +200,19 @@ public class ExpedienteController implements Initializable {
             txt_edad.setText(persona.getEdad().toString());
             txt_domicilio.setText(persona.getDomicilio());
             txt_sexo.setText(persona.getSexo());
+//            imgView_imagen.setImage(persona.foto.get());
 
             btn_modificar.setDisable(false);
             btn_eliminar.setDisable(false);
             btn_agregar.setDisable(true);
             System.out.println(persona.foto.get());
+            System.out.println(persona.id.get());
 
         }
     }
 
     private void inicializarTablaPersonas() {
+        
         col_nombre.setCellValueFactory(new PropertyValueFactory<Persona, String>("nombre"));
         col_apellido.setCellValueFactory(new PropertyValueFactory<Persona, String>("apellido"));
         col_edad.setCellValueFactory(new PropertyValueFactory<Persona, Integer>("edad"));
@@ -205,8 +238,8 @@ public class ExpedienteController implements Initializable {
     
     public void loadLista() {
         personas.clear();
-        conexionMySQL con = new conexionMySQL("root", "bbd_expediente", "isac84alejandro");
-        String sql = "SELECT * FROM `tbl_persona`";
+        conexionMySQL con = new conexionMySQL("robert1", "bbd_expediente", "123.Hola");
+        String sql = "SELECT * FROM `tbl_persona` WHERE (`activo` = '0')";
         ResultSet res;
         res = con.query(sql);
 
